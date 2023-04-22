@@ -1,0 +1,28 @@
+ name: CI
+
+ on:
+   push:
+     branches: [ main ] 
+   pull_request:
+     branches: [ main ]
+   workflow_dispatch:
+
+ jobs:
+   build:
+     runs-on: ubuntu-latest
+     container: node:16-alpine
+
+     steps:
+       - uses: actions/checkout@v2
+
+       - name: Install dependencies
+         run: npm install
+
+       - name: Test
+         run: npm run test-jenkins 
+         
+       - uses: actions/upload-artifact@v2
+         if: success() || failure() 
+         with:
+           name: test-results 
+           path: ./coverage/test.results.xml 
