@@ -1,38 +1,21 @@
-var express = require('express');
-var router = express.Router();
-var indexController = require('../controllers/index');
+const express = require('express');
+const router = express.Router();
+const ctrlLocations = require('../controllers/locations');
+const ctrlReviews = require('../controllers/reviews');
 
+// Locations 
+router.get('/locations/', ctrlLocations.locationsReadAll);
+router.post('/locations', ctrlLocations.locationsCreate);
 
-router.get('/loadBooks', function(req, res, next) {
-  indexController.loadBooks();
-  res.sendStatus(200);
-});
+router.get('/locations/:locationid', ctrlLocations.locationsReadOne);
+router.put('/locations/:locationid', ctrlLocations.locationsUpdateOne);
+router.delete('/locations/:locationid', ctrlLocations.locationsDeleteOne);
 
+// Reviews
+router.post('/locations/:locationid/reviews', ctrlReviews.reviewsCreate);
 
-router.get('/books', function(req, res, next) {
-  indexController.getBooks(req, res);
-});
-
-
-router.get('/books/:id', function(req, res, next) {
-  indexController.getBook(req, res);
-});
-
-router.get('/books/:id/formats', function(req, res, next) {
-  indexController.getBookFormats(req, res);
-});
-
-router.put('/books/:id', function(req, res, next) {
-  indexController.updateBook(req, res);
-});
-
-router.delete('/books/:id', function(req, res, next) {
-  indexController.deleteBook(req, res);
-});
-
-router.post('/books', function(req, res, next) {
-  indexController.createBook(req, res);
-});
-
+router.get('/locations/:locationid/reviews/:reviewid', ctrlReviews.reviewsReadOne);
+router.put('/locations/:locationid/reviews/:reviewid', ctrlReviews.reviewsUpdateOne);
+router.delete('/locations/:locationid/reviews/:reviewid', ctrlReviews.reviewsDeleteOne);
 
 module.exports = router;
