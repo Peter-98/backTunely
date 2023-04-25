@@ -13,20 +13,16 @@ jobs:
     container: node:16-alpine
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install dependencies
         run: npm install
-
-      - name: Test
-        uses: mattallty/jest-github-action@v1
-        env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-         test-command: "npm run coverage-jenkins" 
-
-      - uses: actions/upload-artifact@v2
-        if: success() || failure()
-        with:
-          name: test-results
-          path: ./coverage/
+        
+      - name: Instalar las dependencias de Node
+        run: npm ci
+        
+      - name: Compillar
+        run: npm run build
+        
+      - name: Tests
+        run: npm test
