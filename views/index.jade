@@ -1,5 +1,25 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+doctype html
+html
+  head
+    title Lista de pistas de Spotify
+  body
+    h1 Lista de pistas de Spotify
+    ul
+      each track in tracks
+        li
+          h2= track.name
+          p= "Artista: " + track.artist.join(", ")
+          p= "Álbum: " + track.album
+          p= "Fecha de lanzamiento: " + track.releaseDate
+          p= "Géneros: " + track.genres.join(", ")
+          p= "Duración: " + track.duration
+          img(src=track.images[0])
+          a(href=track.href, target="_blank") Escuchar en Spotify
+          if track.comments.length > 0
+            h3 Comentarios:
+            ul
+              each comment in track.comments
+                li
+                  p= "Autor: " + comment.author
+                  p= "Comentario: " + comment.comment.join(", ")
+                  p= "Estrellas: " + comment.stars
