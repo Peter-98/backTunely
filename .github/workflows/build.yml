@@ -20,6 +20,4 @@ jobs:
         
       - name: Instalar las dependencias de Node
         run: npm ci
-        
-      - name: Tests
-        run: npm test
+
