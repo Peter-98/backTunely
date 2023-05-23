@@ -11,4 +11,4 @@ mongoose.connect('mongodb://127.0.0.1:27017/tracks', {
         console.log('Error al conectar a MongoDB', err);
     });
 
-module.exports = mongoose.connection;
+module.exports = mongoose;

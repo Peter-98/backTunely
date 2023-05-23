@@ -9,27 +9,65 @@ require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var trackRouter = require('./routes/tracks');
-var spotifyController = require('./controllers/spotifyController');
+var authRouter = require('./routes/auth');
+var tracksController = require('./controllers/tracksController');
+var bodyParser = require('body-parser');
+
 
 
 var app = express();
 app.use(cors());
 
+
+var swaggerJsdoc = require('swagger-jsdoc');
+var swaggerUi = require('swagger-ui-express');
+
+// Define la configuración de Swagger
+var swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API de Tunely',
+      version: '1.0.0',
+      description: 'Una API para acceder a la lista de operaciones de canciones y comentarios'
+    },
+  },
+  apis: ['./routes/*.js'], // Rutas que contienen las definiciones de las anotaciones
+};
+
+// Genera la documentación Swagger a partir de las anotaciones en el código
+var swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+// Agrega el middleware de Swagger a la aplicación
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Llamar a la función getToken para obtener el token de Spotify
-spotifyController.getToken();
+tracksController.getToken();
+
+// Actualizar el token cada hora
+// (3600 segundos * 1000 milisegundos = 1 hora)
+setInterval(() => {
+  tracksController.getToken().catch((error) => {
+    console.error('Error al obtener el token de Spotify', error);
+  });
+}, 3600000); // 1 hora en milisegundos
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.use(bodyParser.json({ limit: '50mb' }));
+
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/tracks', trackRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
