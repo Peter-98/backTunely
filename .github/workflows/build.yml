@@ -33,6 +33,7 @@ jobs:
       run: |
           ssh ubuntu@webapps.pedromrtaguilera.tech "git config --global user.email 'pma751@inlumine.ual.es'"
           ssh ubuntu@webapps.pedromrtaguilera.tech "git config --global user.name 'Peter-98'"
+          ssh ubuntu@webapps.pedromrtaguilera.tech "cd backTunely && git init"
     - name: Deploy
       run: |
           ssh ubuntu@webapps.pedromrtaguilera.tech "if [ ! -d 'backTunely' ]; then \
