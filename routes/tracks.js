@@ -86,8 +86,6 @@ router.get('/search/:trackName', middleware.ensureAuthenticated, tracksControlle
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Track'
  *       404:
  *         description: No se encontraron canciones en la base de datos
  *         content:
@@ -122,8 +120,6 @@ router.get('/:searchTerm', tracksController.searchTracks); //busca canciones bbd
  *         description: OK. La petición ha tenido éxito.
  *         content:
  *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Track'
  *       '404':
  *         description: No encontrado. No se encontraron canciones en la base de datos.
  *         content:
