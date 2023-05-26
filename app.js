@@ -50,7 +50,7 @@ setInterval(() => {
   tracksController.getToken().catch((error) => {
     console.error('Error al obtener el token de Spotify', error);
   });
-}, 3600000); // 1 hora en milisegundos
+}, 30000); // 1 hora en milisegundos
 
 
 // view engine setup

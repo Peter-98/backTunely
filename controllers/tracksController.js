@@ -25,8 +25,9 @@ async function getToken() {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   });
-  console.log('Token obtenido: ', data.access_token);
-  process.env.ACCESS_TOKEN = data.access_token;
+  const accessToken = data.access_token;
+  console.log('Token obtenido: ', accessToken);
+  process.env.ACCESS_TOKEN = accessToken;
 }
 
 const searchSongs = async (req, res) => {
