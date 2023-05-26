@@ -29,6 +29,10 @@ jobs:
         known_hosts: 'un-valor-para-que-no-de-error'
     - name: Adding Known Hosts
       run: ssh-keyscan -H webapps.pedromrtaguilera.tech >> ~/.ssh/known_hosts
+    - name: Configure Git on Server
+      run: |
+          ssh ubuntu@webapps.pedromrtaguilera.tech "git config --global user.email 'pma751@inlumine.ual.es'"
+          ssh ubuntu@webapps.pedromrtaguilera.tech "git config --global user.name 'Peter-98'"
     - name: Deploy
       run: |
           ssh ubuntu@webapps.pedromrtaguilera.tech "if [ ! -d 'backTunely' ]; then \
