@@ -18,3 +18,23 @@ jobs:
         node-version: 18.x
     - run: npm i
     - run: npm run build --if-present
+ deploy:
+  runs-on: ubuntu-latest
+  name: Deploy to Server
+  steps:
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        known_hosts: 'un-valor-para-que-no-de-error'
+    - name: Adding Known Hosts
+      run: ssh-keyscan -H webapps.pedromrtaguilera.tech >> ~/.ssh/known_hosts
+    - name: Deploy
+      run: |
+          ssh ubuntu@webapps.pedromrtaguilera.tech "if [ ! -d 'backTunely' ]; then \
+              git clone https://github.com/Peter-98/backTunely.git; \
+            else \
+              cd backTunely && git stash && git fetch --all && git reset --hard origin/master && git pull origin master; \
+            fi"
+          ssh ubuntu@webapps.pedromrtaguilera.tech "cd backTunely && echo -e 'SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}\nSPOTIFY_CLIENT_SECRET=${{ secrets.SPOTIFY_CLIENT_SECRET }}' > .env"
+          ssh ubuntu@webapps.pedromrtaguilera.tech "cd backTunely && docker-compose pull && docker-compose up -d --remove-orphans && yes | docker image prune"
