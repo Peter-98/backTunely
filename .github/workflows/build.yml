@@ -32,7 +32,7 @@ jobs:
     - name: Deploy
       run: |
           ssh ubuntu@webapps.pedromrtaguilera.tech "if [ ! -d 'backTunely' ]; then \
-              git clone https://github.com/Peter-98/backTunely.git; \
+              HOME=/home/ubuntu git clone https://github.com/Peter-98/backTunely.git; \
             else \
               cd backTunely && git stash && git fetch --all && git reset --hard origin/master && git pull origin master; \
             fi"
