@@ -503,7 +503,7 @@ router.delete('/:id', middleware.ensureAuthenticated, tracksController.deleteTra
  *       '500':
  *         description: Error interno del servidor
  */
-router.delete('/:id/:commentId', middleware.ensureAuthenticated, tracksController.deleteCommentById); // borra un comentario de una cancion de la bbdd
+router.delete('/:id/:commentId', tracksController.deleteCommentById); // borra un comentario de una cancion de la bbdd
 
 
 module.exports = router;
