@@ -26,7 +26,6 @@ async function getToken() {
     }
   });
   const accessToken = data.access_token;
-  console.log('Token obtenido: ', accessToken);
   process.env.ACCESS_TOKEN = accessToken;
 
   // Llamar al método getToken nuevamente después de 1 hora (3600 segundos * 1000 milisegundos)
