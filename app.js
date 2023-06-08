@@ -45,12 +45,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 tracksController.getToken();
 
 // Actualizar el token cada hora
-// (3600 segundos * 1000 milisegundos = 1 hora)
 setInterval(() => {
   tracksController.getToken().catch((error) => {
     console.error('Error al obtener el token de Spotify', error);
   });
-}, 360000); // 1 hora en milisegundos
+}, 3600000); // 1 hora en milisegundos
 
 
 // view engine setup
