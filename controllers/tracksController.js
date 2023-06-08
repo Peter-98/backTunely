@@ -28,7 +28,7 @@ async function getToken() {
   const accessToken = data.access_token;
   process.env.ACCESS_TOKEN = accessToken;
   // Llamar al método getToken nuevamente después de 1 hora (3600 segundos * 1000 milisegundos)
-  setTimeout(getToken, 36000);
+  //setTimeout(getToken, 36000);
 }
 
 const searchSongs = async (req, res) => {
@@ -59,6 +59,7 @@ const searchSongs = async (req, res) => {
     console.log(error);
 
     if (error.response && error.response.status === 401) {
+      getToken();
       sendJSONresponse(res, 401, { "message": "Token inválido o expirado" });
     } else if (error.response && error.response.status === 400) {
       sendJSONresponse(res, 400, { "message": "Parámetros de búsqueda inválidos" });
