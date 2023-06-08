@@ -1,6 +1,7 @@
 var jwt = require('jsonwebtoken'); 
 var moment = require('moment');
 var config = require('../config');
+var tracksController = require('../controllers/tracksController');
 
 exports.ensureAuthenticated = function(req, res, next) {
   if(!req.headers.authorization) { 
@@ -16,6 +17,7 @@ exports.ensureAuthenticated = function(req, res, next) {
         case 'JsonWebTokenError':
           return res.status(401).send({message: "Firma incorrecta"});
         case 'TokenExpiredError':
+          tracksController.getToken();
           return res.status(401).send({message: "Token caducado"});
         default:
           return res.status(401).send(err);
